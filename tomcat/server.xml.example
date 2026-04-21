@@ -1,0 +1,37 @@
+<!--
+  Example Tomcat server.xml Connector for mTLS client certificate auth.
+
+  Dogtag's default server.xml already has an HTTPS connector on port 8443.
+  To enable optional client cert authentication for the WebUI, ensure the
+  connector includes clientAuth="want" (or "true" to require it).
+
+  This is a REFERENCE — do not replace Dogtag's server.xml wholesale.
+  Merge the relevant attributes into your existing connector.
+-->
+
+<!-- Optional client cert (browser prompts for cert if available) -->
+<Connector port="8443"
+           protocol="org.dogtagpki.tomcat.Http11NioConnector"
+           maxThreads="150"
+           scheme="https"
+           secure="true"
+           SSLEnabled="true"
+           sslImplementationName="org.dogtagpki.tomcat.JSSImplementation"
+           clientAuth="want"
+           sslProtocol="TLS" />
+
+<!--
+  clientAuth values:
+    "want"  — request client cert, but allow connections without one
+              (browser shows cert picker if certs are available)
+    "true"  — require client cert (connections without cert are rejected)
+    "false" — no client cert requested (default)
+
+  For the WebUI, "want" is recommended:
+    - Users WITH a client cert get seamless certificate-based login
+    - Users WITHOUT a client cert fall back to Basic auth (username/password)
+
+  Dogtag's LDAP-backed user database is used for both authentication methods.
+  No additional configuration is needed in the WebUI — Tomcat handles cert
+  verification in the TLS handshake and maps the cert subject to a user.
+-->
