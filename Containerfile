@@ -9,6 +9,7 @@
 
 # --- Build stage ---
 FROM registry.access.redhat.com/ubi10/nodejs-24:latest AS builder
+USER 0
 
 WORKDIR /app
 COPY package.json package-lock.json ./
