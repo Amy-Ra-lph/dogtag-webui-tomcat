@@ -1,0 +1,23 @@
+node_modules/
+dist/
+*.local
+.env
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test / coverage
+coverage/
+
+# Certs (keep .example, ignore real ones)
+certs/*.cert
+certs/*.key
+certs/*.pem
+!certs/.gitkeep
