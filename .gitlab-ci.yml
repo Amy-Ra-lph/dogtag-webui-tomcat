@@ -1,0 +1,72 @@
+stages:
+  - validate
+  - test
+  - build
+
+default:
+  image: node:22-alpine
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+install:
+  stage: validate
+  script:
+    - npm ci
+  artifacts:
+    paths:
+      - node_modules/
+    expire_in: 1 hour
+
+lint:
+  stage: validate
+  needs: [install]
+  script:
+    - npx eslint --color --max-warnings 0
+
+typecheck:
+  stage: validate
+  needs: [install]
+  script:
+    - npx tsc -b --noEmit
+
+prettier:
+  stage: validate
+  needs: [install]
+  script:
+    - npx prettier --check .
+
+test:
+  stage: test
+  needs: [install]
+  script:
+    - npx vitest run --reporter=verbose
+  coverage: '/All files\s+\|\s+(\d+\.?\d*)\s/'
+
+build:
+  stage: build
+  needs: [lint, typecheck, test]
+  script:
+    - npm run build
+    - test -f dist/index.html
+    - ls dist/assets/*.js dist/assets/*.css
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 week
+
+container:
+  stage: build
+  needs: [build]
+  image: quay.io/podman/stable:latest
+  script:
+    - podman build -t dogtag-webui-tomcat .
+    - CID=$(podman create dogtag-webui-tomcat)
+    - podman cp "$CID:/webapp" /tmp/webapp-check
+    - podman rm "$CID"
+    - test -f /tmp/webapp-check/index.html
+    - test -f /tmp/webapp-check/WEB-INF/web.xml
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
