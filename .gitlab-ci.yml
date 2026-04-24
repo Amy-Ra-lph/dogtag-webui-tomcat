@@ -1,7 +1,13 @@
+include:
+  - project: 'afarley/ai-tool-security-check'
+    file: '/ci/trivy.yml'
+    ref: main
+
 stages:
   - validate
   - test
   - build
+  - scan
 
 default:
   image: node:22-alpine
@@ -68,5 +74,10 @@ container:
     - podman rm "$CID"
     - test -f /tmp/webapp-check/index.html
     - test -f /tmp/webapp-check/WEB-INF/web.xml
+    - podman save -o image.tar dogtag-webui-tomcat
+  artifacts:
+    paths:
+      - image.tar
+    expire_in: 1 hour
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
