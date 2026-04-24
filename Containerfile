@@ -25,12 +25,16 @@ RUN npm run build
 #   2. Mounted as a volume
 #   3. Extracted with: podman cp <container>:/webapp ./webui
 FROM registry.access.redhat.com/ubi10/ubi-minimal:latest AS package
+USER 0
 
 COPY --from=builder /app/dist/ /webapp/
 COPY tomcat/WEB-INF/ /webapp/WEB-INF/
 
 # Verify the build output
 RUN ls -la /webapp/index.html /webapp/WEB-INF/web.xml
+
+# Run as non-root
+USER 1001
 
 # The final image is just the webapp files — extract or copy them
 # into your Dogtag Tomcat instance.

@@ -1,0 +1,4 @@
+suppress:
+  - rule: PRI-001
+    path: "package-lock.json"
+    reason: "NPM author metadata - cannot modify"

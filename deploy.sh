@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (C) 2026 Red Hat, Inc.
+#
 # Deploy the Dogtag WebUI into a running Dogtag Tomcat instance.
 #
 # Usage:
