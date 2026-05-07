@@ -85,14 +85,14 @@ vite.config.ts        Vite config (base=/webui/, dev proxy to Dogtag)
 
 ## Comparison with dogtag-webui
 
-| Aspect | dogtag-webui (nginx+Fastify) | dogtag-webui-tomcat |
-|--------|------------------------------|---------------------|
-| Runtime | Node.js + nginx | Tomcat only |
-| Client cert auth | nginx terminates TLS, extracts cert headers | Tomcat native mTLS |
-| Proxy layer | Fastify proxies to Dogtag | None (same origin) |
-| Deployment | Container with nginx + Node | Copy files into Dogtag |
-| LDAP auth | Fastify binds to LDAP | Tomcat's built-in LDAP realm |
-| Complexity | Higher (3 processes) | Lower (static files only) |
+| Aspect           | dogtag-webui (nginx+Fastify)                | dogtag-webui-tomcat          |
+| ---------------- | ------------------------------------------- | ---------------------------- |
+| Runtime          | Node.js + nginx                             | Tomcat only                  |
+| Client cert auth | nginx terminates TLS, extracts cert headers | Tomcat native mTLS           |
+| Proxy layer      | Fastify proxies to Dogtag                   | None (same origin)           |
+| Deployment       | Container with nginx + Node                 | Copy files into Dogtag       |
+| LDAP auth        | Fastify binds to LDAP                       | Tomcat's built-in LDAP realm |
+| Complexity       | Higher (3 processes)                        | Lower (static files only)    |
 
 ## License
 

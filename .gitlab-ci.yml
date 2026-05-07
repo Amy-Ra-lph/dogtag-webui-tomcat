@@ -1,6 +1,6 @@
 include:
-  - project: 'afarley/ai-tool-security-check'
-    file: '/ci/trivy.yml'
+  - project: "afarley/ai-tool-security-check"
+    file: "/ci/trivy.yml"
     ref: main
 
 stages:
