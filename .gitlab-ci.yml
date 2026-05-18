@@ -1,5 +1,5 @@
 include:
-  - project: "afarley/ai-tool-security-check"
+  - project: "afarley/rhel-security-toolkit"
     file: "/ci/trivy.yml"
     ref: main
 
