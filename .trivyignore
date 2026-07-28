@@ -1,0 +1,4 @@
+# GHSA-qwww-vcr4-c8h2: React Router RSC Mode CSRF Bypass
+# Not applicable — this app uses client-side BrowserRouter, not RSC mode.
+# Fixed in react-router 8.3.0 but 7→8 is a major version bump with breaking changes.
+GHSA-qwww-vcr4-c8h2
